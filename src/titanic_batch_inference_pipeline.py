@@ -36,10 +36,12 @@ def g():
     
     y_pred = model.predict(batch_data)
     #print(y_pred)
-    offset = 1
-    prediction = y_pred[y_pred.size-offset]
-    prediction = prediction.astype(str)
-    prediction_url = f"https://github.com/torileatherman/serverless_ml_titanic/blob/d9db9e323a9c525142ff4e9cc384537c8e08bc1e/src/assets/{prediction}.png"
+    offset = 2
+    #prediction = y_pred[y_pred.size-offset]
+    #prediction = prediction.astype(str)
+    prediction="1"
+    prediction_url = "https://raw.githubusercontent.com/torileatherman/serverless_ml_titanic/main/src/assets/"+prediction+".png"
+    print(prediction_url)
     print("Predicted Passenger outcome: " + prediction)
     img = Image.open(requests.get(prediction_url, stream=True).raw)            
     img.save("./latest_passenger_prediction.png")
@@ -51,8 +53,7 @@ def g():
     #print(df)
     label = df.iloc[-offset]["survived"]
     label = label.astype(str)
-    label_url = f"https://github.com/torileatherman/serverless_ml_titanic/blob/d9db9e323a9c525142ff4e9cc384537c8e08bc1e/src/assets/{label}.png"
-    print("Actual Passenger outcome: " + label)
+    label_url = "https://raw.githubusercontent.com/torileatherman/serverless_ml_titanic/main/src/assets/"+label+".png"
     img = Image.open(requests.get(label_url, stream=True).raw)            
     img.save("./actual_passenger_outcome.png")
     dataset_api.upload("./actual_passenger_outcome.png", "Resources/images", overwrite=True)
@@ -87,7 +88,7 @@ def g():
 
     # Only create the confusion matrix when our iris_predictions feature group has examples of all 3 iris flowers
     print("Number of different passenger outcome predictions to date: " + str(predictions.value_counts().count()))
-    if predictions.value_counts().count() == 3:
+    if predictions.value_counts().count() == 2:
         results = confusion_matrix(labels, predictions)
     
         df_cm = pd.DataFrame(results, ['Actually Survived', 'Actually Died'],
