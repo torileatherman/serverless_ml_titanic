@@ -35,11 +35,10 @@ def g():
     batch_data = feature_view.get_batch_data()
     
     y_pred = model.predict(batch_data)
-    #print(y_pred)
-    offset = 2
-    #prediction = y_pred[y_pred.size-offset]
-    #prediction = prediction.astype(str)
-    prediction="1"
+    offset = 3
+    prediction = y_pred[y_pred.size-offset]
+    prediction = prediction.astype(str)
+    # prediction="1"
     prediction_url = "https://raw.githubusercontent.com/torileatherman/serverless_ml_titanic/main/src/assets/"+prediction+".png"
     print(prediction_url)
     print("Predicted Passenger outcome: " + prediction)
