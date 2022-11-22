@@ -86,7 +86,7 @@ def g():
     predictions = history_df[['prediction']]
     labels = history_df[['label']]
 
-    # Only create the confusion matrix when our iris_predictions feature group has examples of all 3 iris flowers
+    # Only create the confusion matrix when our predictions feature group has examples of both prediction outcomes
     print("Number of different passenger outcome predictions to date: " + str(predictions.value_counts().count()))
     if predictions.value_counts().count() == 2:
         results = confusion_matrix(labels, predictions)
