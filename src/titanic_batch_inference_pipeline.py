@@ -23,17 +23,21 @@ def g():
     import seaborn as sns
     import requests
 
+    # connect to project created on hopsworks
     project = hopsworks.login()
     fs = project.get_feature_store()
     
+    # get model from hopsworks
     mr = project.get_model_registry()
     model = mr.get_model("titanic_modal", version=2)
     model_dir = model.download()
     model = joblib.load(model_dir + "/titanic_model.pkl")
     
+    # get feature view from hopsworks
     feature_view = fs.get_feature_view(name="titanic_modal", version=1)
     batch_data = feature_view.get_batch_data()
     
+    # predict passenger outcome of batch of data, and return associated picture
     y_pred = model.predict(batch_data)
     offset = 3
     prediction = y_pred[y_pred.size-offset]
@@ -47,8 +51,9 @@ def g():
     dataset_api = project.get_dataset_api()    
     dataset_api.upload("./latest_passenger_prediction.png", "Resources/images", overwrite=True)
    
-    iris_fg = fs.get_feature_group(name="titanic_modal", version=1)
-    df = iris_fg.read() 
+   # 
+    titanic_fg = fs.get_feature_group(name="titanic_modal", version=1)
+    df = titanic_fg.read() 
     #print(df)
     label = df.iloc[-offset]["survived"]
     label = label.astype(str)
@@ -77,7 +82,7 @@ def g():
     # the insertion was done asynchronously, so it will take ~1 min to land on App
     history_df = pd.concat([history_df, monitor_df])
 
-
+    # get the four latest predictions
     df_recent = history_df.tail(4)
     dfi.export(df_recent, './df_recent.png', table_conversion = 'matplotlib')
     dataset_api.upload("./df_recent.png", "Resources/images", overwrite=True)

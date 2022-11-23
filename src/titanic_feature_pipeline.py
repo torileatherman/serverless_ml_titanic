@@ -37,7 +37,7 @@ def read_preprocess_data():
     # Read the csv data
     titanic_df = pd.read_csv("https://raw.githubusercontent.com/ID2223KTH/id2223kth.github.io/master/assignments/lab1/titanic.csv")
 
-    # Preprocessing
+    # Preprocess the data
     # Drop columns that have low predictive power
     titanic_df = titanic_df.drop(columns=["Name", "PassengerId", "Ticket", "Cabin","Embarked","SibSp","Parch"])
     # fill missing values with mean column values for int and float columns
@@ -47,14 +47,14 @@ def read_preprocess_data():
     # encode sex
     titanic_df["Sex"] = titanic_df["Sex"].apply(lambda x: 0 if x == "male" else 1)
 
-    # aggregate ages into bins, and map to key
+    # aggregate ages into bins, and map each bin to key
     age_labels = ['child','teenager','adult','elder']
     age_mapping = dict([(age_labels[i], i) for i in range(0, len(age_labels))])
 
     titanic_df["Age_bin"] = pd.cut(titanic_df["Age"], bins = [0,12,18,55,100], labels=age_labels)
     titanic_df["Age_bin"] = titanic_df["Age_bin"].apply(lambda a: age_mapping[a])
 
-    # aggregate fares into bins, and map to key
+    # aggregate fares into bins, and map each bin to key
     fare_labels = ['low','low_med','high_med','high']
     fare_mapping = dict([(fare_labels[i], i) for i in range(0, len(fare_labels))])
 
@@ -63,7 +63,7 @@ def read_preprocess_data():
 
     titanic_df = titanic_df.drop(columns=['Age','Fare'])
 
-    # convert all values to int
+    # convert all values to int for training
     titanic_df = titanic_df.astype(int)
 
 def generate_random_passenger():
@@ -85,6 +85,7 @@ def generate_random_passenger():
     "Survived": 0
     })
 
+    # randomly return dataframe of passenger that either survived or died
     rand = np.random.choice([0,1])
     if rand == 1:
         random_passenger = survived_df
