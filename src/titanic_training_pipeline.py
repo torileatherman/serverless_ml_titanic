@@ -25,9 +25,7 @@ def g():
     from hsml.model_schema import ModelSchema
     import joblib
 
-    # You have to set the environment variable 'HOPSWORKS_API_KEY' for login to succeed
     project = hopsworks.login()
-    # fs is a reference to the Hopsworks Feature Store
     fs = project.get_feature_store()
 
     # The feature view is the input set of features for your model. The features can come from different feature groups.    
@@ -46,7 +44,7 @@ def g():
     # You can read training data, randomly split into train/test sets of features (X) and labels (y)        
     X_train, X_test, y_train, y_test = feature_view.train_test_split(0.2)
 
-    # Train our model with the Scikit-learn K-nearest-neighbors algorithm using our features (X_train) and labels (y_train)
+    # Train our model with the gradient boosting classifier algorithm using our features (X_train) and labels (y_train)
     model = GradientBoostingClassifier(n_estimators=1000, random_state=3)
     model.fit(X_train, y_train.values.ravel())
 
