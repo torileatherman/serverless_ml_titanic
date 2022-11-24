@@ -2,6 +2,7 @@ import os
 import modal
 import hopsworks
 import pandas as pd
+import numpy as np
 
 LOCAL = True
 BACKFILL = False
@@ -23,7 +24,7 @@ def g():
     else:
         titanic_df = generate_random_passenger()
 
-    titanic_fg = fs.get_or_create_feature_group(name="titanic_modal",version=1,
+    titanic_fg = fs.get_or_create_feature_group(name="titanic_modal",version=2,
         primary_key=['Pclass','Sex','Age_bin','Fare_bin'], 
         description="Titanic dataset")
     titanic_fg.insert(titanic_df, write_options={"wait_for_job" : False})
@@ -65,6 +66,8 @@ def read_preprocess_data():
 
     # convert all values to int for training
     titanic_df = titanic_df.astype(int)
+
+    return titanic_df
 
 def generate_random_passenger():
     '''
