@@ -2,7 +2,7 @@
 Titanic survival as a serverless ML system
 
 1. Create feature pipeline that registers the titanic dataset as a feature group in hopsworks.
-  1. If BACKFILL = True, we read the titanic csv file and perform preprocessing on the data.
+	1. If BACKFILL = True, we read the titanic csv file and perform preprocessing on the data.
 		1. We drop columns with low predictive value, and fill in any na values with the median or mode of the column depending on the type of data. We encode the sex data, then group both age and fare_type into bins and map to values. We convert the dataframe data to integers for our training stage, and return the preprocessed data as a dataframe.
 	2. If BACKFILL = False, we generate a synthetic passenger.
 		1. We create two different dataframes, one for a passenger who survived and one for a passenger who died. Based on our empirical review of the data, we generate values for each of these dataframes using prior distributions for each of our four features. We randomly return one of these dataframes.
