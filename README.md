@@ -1,5 +1,5 @@
-# serverless_ml_titanic
-Titanic survival as a serverless ML system
+# Titanic survival as a serverless ML system
+### Authors: Eva Engel & Tori Leatherman
 
 1. Create feature pipeline that registers the titanic dataset as a feature group in hopsworks.
 	1. If BACKFILL = True, we read the titanic csv file and perform preprocessing on the data.
